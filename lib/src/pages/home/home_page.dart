@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/home_page_appbar_widget.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
 
@@ -12,43 +14,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
+      appBar: const HomePageAppbar(
+        title: "Cameron St., Boston",
+        titleLabel: "Location",
+      ),
+      drawer: Drawer(),
       body: Center(
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
-            SliverAppBar(
-              // toolbarHeight: 80,
-              stretch: true,
-              title: Column(
-                children: const [
-                  Text(
-                    "Location",
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
-                  ),
-                  Text(
-                    "Cameron St., Boston",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
-              centerTitle: true,
-              floating: true,
-              // pinned: true,
-              leadingWidth: 80,
-              // TODO: Drawer menu
-              leading: AspectRatio(aspectRatio: 1, child: const Placeholder()),
-              actions: const [
-                Placeholder(
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: SizedBox.expand(),
-                  ),
-                )
-              ],
-            ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(vertical: 32),
               sliver: SliverToBoxAdapter(
