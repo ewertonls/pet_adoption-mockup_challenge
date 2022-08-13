@@ -4,10 +4,10 @@
 
 import 'package:flutter/widgets.dart';
 
-class PetAdoption {
-  PetAdoption._();
+class AppIcons {
+  AppIcons._();
 
-  static const _kFontFam = 'PetAdoption';
+  static const _kFontFam = 'PetAdoptionIcons';
   static const String? _kFontPkg = null;
 
   static const IconData bars =
