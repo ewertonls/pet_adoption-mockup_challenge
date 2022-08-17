@@ -6,17 +6,22 @@ class UserAvatarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return LimitedBox(
-      maxHeight: 38,
-      maxWidth: 38,
+    return ConstrainedBox(
+      constraints: const BoxConstraints.tightFor(width: 40),
       child: Material(
         type: MaterialType.button,
         color: theme.colorScheme.primary,
         shape: const CircleBorder(),
         clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          child: Image.asset('assets/images/avatar/avatar_400x400.jpg'),
+        child: Tooltip(
+          message: "User Profile",
+          child: InkWell(
+            onTap: onTap,
+            child: Image.asset(
+              'assets/images/avatar/avatar_400x400.jpg',
+              filterQuality: FilterQuality.medium,
+            ),
+          ),
         ),
       ),
     );
