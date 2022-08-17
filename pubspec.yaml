@@ -61,6 +61,12 @@ flutter:
   assets:
     - assets/fonts/PetAdoptionIcons.ttf
     - assets/images/avatar/avatar_400x400.jpg
+    - assets/images/pets/charlie/
+    - assets/images/pets/daisy/
+    - assets/images/pets/max/
+    - assets/images/pets/sakamoto/
+    - assets/images/pets/sparky/
+    - assets/images/pets/zoe/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
