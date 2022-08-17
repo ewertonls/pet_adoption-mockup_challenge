@@ -53,8 +53,10 @@ class AppbarHeader extends StatelessWidget {
         if (titleLabel != null)
           Text(
             titleLabel!,
-            style: theme.textTheme.labelSmall
-                ?.copyWith(color: theme.colorScheme.onBackground),
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: theme.colorScheme.onBackground,
+              fontWeight: FontWeight.w300,
+            ),
             textAlign: TextAlign.center,
           ),
         if (title != null)
