@@ -24,8 +24,8 @@ class PetDetailsAbout extends StatelessWidget {
           ),
           textAlign: TextAlign.start,
         ),
-        ConstrainedBox(
-          constraints: BoxConstraints.loose(const Size.fromWidth(768)),
+        SizedBox(
+          width: 768,
           child: Text(
             content,
             style: theme.textTheme.bodyMedium,
