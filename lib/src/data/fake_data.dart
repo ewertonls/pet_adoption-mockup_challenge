@@ -56,8 +56,8 @@ class FakeData {
       gender: Gender.male,
       distance: 2.6,
       photos: [
-        "assets/images/pets/charlie/charlie-02.png",
         "assets/images/pets/charlie/charlie-01.png",
+        "assets/images/pets/charlie/charlie-02.png",
       ],
       about: "lorem charlie",
       isFavorite: false,
