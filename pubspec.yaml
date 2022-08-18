@@ -67,6 +67,7 @@ flutter:
     - assets/images/pets/sakamoto/
     - assets/images/pets/sparky/
     - assets/images/pets/zoe/
+    - assets/fonts/inter/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -96,6 +97,26 @@ flutter:
     - family:  PetAdoptionIcons
       fonts:
         - asset: assets/fonts/PetAdoptionIcons.ttf
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter/Inter-Black.ttf
+          weight: 900
+        - asset: assets/fonts/inter/Inter-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/inter/Inter-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/inter/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/inter/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/inter/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/inter/Inter-Light.ttf
+          weight: 300
+        - asset: assets/fonts/inter/Inter-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/inter/Inter-Thin.ttf
+          weight: 100
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
