@@ -28,7 +28,7 @@ class AppFavoriteButton extends StatefulWidget {
       onTap: onTap,
       value: value,
       color: color,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(8),
     );
   }
 
