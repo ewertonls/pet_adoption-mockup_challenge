@@ -54,9 +54,11 @@ class _PetImageGalleryState extends State<PetImageGallery> {
                   ),
                   const SizedBox.square(dimension: 12),
                   Flexible(
-                    child: _PetImageGalleryViewer(
-                      imagebackgroundColor: widget.imagebackgroundColor,
-                      petPhotos: petPhotos[currentIndex],
+                    child: Center(
+                      child: _PetImageGalleryViewer(
+                        imagebackgroundColor: widget.imagebackgroundColor,
+                        petPhotos: petPhotos[currentIndex],
+                      ),
                     ),
                   )
                 ],
