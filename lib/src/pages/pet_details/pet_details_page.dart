@@ -1,109 +1,146 @@
 import 'package:flutter/material.dart';
+import 'package:pet_adoption/src/common_widgets/app_back_button_widget.dart';
+import 'package:pet_adoption/src/pet/models/pet_model.dart';
 
-class DetailsPage extends StatefulWidget {
-  const DetailsPage({Key? key}) : super(key: key);
+import '../../common_widgets/app_favorite_button_widget.dart';
+import '../../data/fake_data.dart';
+import '../../theme/app_colors.dart';
+import 'widgets/pet_details_about_widget.dart';
+import 'widgets/pet_details_adopt_button.dart';
+import 'widgets/pet_details_header_widget.dart';
+import 'widgets/pet_details_sliver_appbar_widget.dart';
+import 'widgets/pet_image_gallery_widget.dart';
+
+class PetDetailsPage extends StatefulWidget {
+  const PetDetailsPage({super.key});
 
   @override
-  State<DetailsPage> createState() => _DetailsPageState();
+  State<PetDetailsPage> createState() => _PetDetailsPageState();
 }
 
-class _DetailsPageState extends State<DetailsPage> {
+class _PetDetailsPageState extends State<PetDetailsPage> {
+  final padding = const EdgeInsets.symmetric(horizontal: 32);
+  final imagebackgroundColor = AppColors.yellow;
+
+  PetModel pet = FakeData().pets[0];
+
+  void _popWithCurrentPet() {
+    Navigator.of(context).pop(pet);
+  }
+
+  void _tooglePetFavorite() {
+    pet = pet.copyWith(isFavorite: !pet.isFavorite);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
+      extendBody: true,
+      backgroundColor: theme.colorScheme.surface,
       body: CustomScrollView(
         slivers: [
-          // TODO: Details page appbar
-          SliverAppBar(
-            pinned: true,
-            // TODO: Back button
-            leading: Placeholder(),
-            actions: [
-              // TODO: Favorite button
-              AspectRatio(
-                aspectRatio: 1,
-                child: Placeholder(),
-              ),
-            ],
-          ),
-          // TODO: Details page header section
-          SliverToBoxAdapter(
-            child: Placeholder(
-              child: SizedBox.fromSize(
-                size: Size.fromHeight(120),
-              ),
+          PetDetailsSliverAppBar(
+            leading: AppBackButton(onTap: _popWithCurrentPet),
+            trailing: AppFavoriteButton.filled(
+              onTap: _tooglePetFavorite,
+              color: AppColors.lightRed,
+              value: pet.isFavorite,
             ),
           ),
-          // TODO: Image gallery widget
-          SliverToBoxAdapter(
-            child: Placeholder(
-              color: Colors.yellow[700]!,
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: SizedBox.expand(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 80,
-                        child: ListView(
-                          physics: const BouncingScrollPhysics(),
-                          padding: const EdgeInsets.symmetric(vertical: 0),
-                          children: List.generate(
-                              6,
-                              (index) => Placeholder(
-                                    child: SizedBox(
-                                      width: 80,
-                                      height: 80,
-                                    ),
-                                  )),
-                        ),
-                      ),
-                      SizedBox.square(dimension: 16),
-                      Flexible(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: AspectRatio(
-                            aspectRatio: 1,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.yellow[900],
-                              ),
-                              child: FittedBox(
-                                child: Placeholder(),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
+          _DetailsHeaderWidget(
+            pet: pet,
+            padding: padding,
           ),
-          // TODO: Details page about section
-          SliverToBoxAdapter(
-            child: Placeholder(
-              child: SizedBox.fromSize(
-                size: Size.fromHeight(240),
-              ),
-            ),
+          _ImageGallerySliver(
+            pet: pet,
+            imagebackgroundColor: imagebackgroundColor,
+            padding: padding,
+          ),
+          _AboutSectionSliver(
+            pet: pet,
+            padding: padding,
           ),
         ],
       ),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Placeholder(
-            color: Colors.orange,
-            child: SizedBox(
-              width: 240,
-              height: 60,
-            ),
+      bottomNavigationBar: PetDetailsAdoptButton(onTap: () {}),
+    );
+  }
+}
+
+class _DetailsHeaderWidget extends StatelessWidget {
+  const _DetailsHeaderWidget({
+    Key? key,
+    required this.pet,
+    required this.padding,
+  }) : super(key: key);
+
+  final EdgeInsets padding;
+  final PetModel pet;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverPadding(
+      padding: padding,
+      sliver: SliverToBoxAdapter(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints.loose(const Size.fromWidth(768)),
+            child: PetDetailsHeader(pet: pet),
           ),
-        ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ImageGallerySliver extends StatelessWidget {
+  const _ImageGallerySliver({
+    Key? key,
+    required this.pet,
+    required this.imagebackgroundColor,
+    required this.padding,
+  }) : super(key: key);
+
+  final EdgeInsets padding;
+  final PetModel pet;
+  final Color imagebackgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverPadding(
+      padding: padding,
+      sliver: SliverToBoxAdapter(
+        child: Center(
+          child: PetImageGallery(
+            pet: pet,
+            imagebackgroundColor: imagebackgroundColor,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AboutSectionSliver extends StatelessWidget {
+  const _AboutSectionSliver({
+    Key? key,
+    required this.pet,
+    required this.padding,
+  }) : super(key: key);
+
+  final PetModel pet;
+  final EdgeInsets padding;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverPadding(
+      padding: padding.copyWith(bottom: 100),
+      sliver: SliverToBoxAdapter(
+        child: Center(
+          child: PetDetailsAbout(content: pet.about),
+        ),
       ),
     );
   }
