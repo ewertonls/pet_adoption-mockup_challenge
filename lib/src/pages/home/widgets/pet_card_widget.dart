@@ -68,7 +68,10 @@ class _PetCardState extends State<PetCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          child: _buildCardHeader(theme),
+                          child: _PetCardHeader(
+                            theme: theme,
+                            pet: widget.pet,
+                          ),
                         ),
                         AppFavoriteButton(
                           onTap: widget.onFavorite,
@@ -107,38 +110,19 @@ class _PetCardState extends State<PetCard> {
   Row _buildDistanceMarker(ThemeData theme) {
     return Row(
       children: [
-        Icon(
-          AppIcons.mapMarker,
-          color: theme.colorScheme.primary,
-          size: theme.textTheme.labelLarge?.fontSize,
+        Transform.translate(
+          offset: const Offset(-1, 0),
+          child: Icon(
+            AppIcons.mapMarker,
+            color: theme.colorScheme.primary,
+            size: theme.textTheme.labelLarge?.fontSize,
+          ),
         ),
         Expanded(
           child: Text(
             "${widget.pet.distance.toStringAsFixed(1)} kms away",
             style: theme.textTheme.labelSmall,
             overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Column _buildCardHeader(ThemeData theme) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          widget.pet.name,
-          overflow: TextOverflow.ellipsis,
-          style: theme.textTheme.titleMedium
-              ?.copyWith(fontWeight: FontWeight.w800),
-        ),
-        Text(
-          widget.pet.breed,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-          style: theme.textTheme.labelMedium?.copyWith(
-            fontWeight: FontWeight.normal,
           ),
         ),
       ],
@@ -161,5 +145,40 @@ class _PetCardState extends State<PetCard> {
           : "${hasFractionDigits ? years.toInt() : years.toStringAsFixed(1)}"
               " years old";
     }
+  }
+}
+
+class _PetCardHeader extends StatelessWidget {
+  const _PetCardHeader({
+    Key? key,
+    required this.theme,
+    required this.pet,
+  }) : super(key: key);
+
+  final ThemeData theme;
+  final PetModel pet;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          pet.name,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+          style: theme.textTheme.titleMedium
+              ?.copyWith(fontWeight: FontWeight.w800),
+        ),
+        Text(
+          pet.breed,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+          style: theme.textTheme.labelMedium?.copyWith(
+            height: 1.5,
+          ),
+        ),
+      ],
+    );
   }
 }
