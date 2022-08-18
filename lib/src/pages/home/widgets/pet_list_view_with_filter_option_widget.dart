@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pet_adoption/src/pages/pet_details/pet_details_page.dart';
 
 import '../../../pet/controllers/pet_list_filter_controller.dart';
 import '../../../pet/models/pet_models.dart';
@@ -45,10 +46,28 @@ class _PetListViewWithFilterOptionState
   }
 
   void _applyFilter() {
+    listItems = controller.pets //
+        .where(controller.selectedFilter.filter) //
+        .toList();
     setState(() {});
-    listItems =
-        controller.pets.where(controller.selectedFilter.filter).toList();
-    debugPrint(listItems.toString());
+  }
+
+  Future<void> _navigateToPetDetailsAndUpdatePet(
+    BuildContext context,
+    PetModel pet,
+    Color color,
+  ) async {
+    final petIndex = controller.indexOfPet(pet);
+    final newPet = await Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => PetDetailsPage(
+        pet: pet,
+        imagebackgroundColor: color,
+      ),
+    ));
+    if (!mounted) {
+      return;
+    }
+    controller.updatePetAt(petIndex, newPet);
   }
 
   @override
@@ -79,15 +98,23 @@ class _PetListViewWithFilterOptionState
               delegate: SliverChildBuilderDelegate(
             childCount: listItems.length,
             (context, index) {
-              const double padding = 16;
+              const double cardSpacing = 16;
+              final pet = listItems[index];
+              final backgroundColor = AppColors.colorReelColor(index);
               return Padding(
                 padding: EdgeInsets.only(
-                  top: index == 0 ? 0 : padding,
+                  top: index == 0 ? 0 : cardSpacing,
                 ),
                 child: PetCard(
-                  pet: listItems[index],
-                  imageBackgroundColor: AppColors.colorReelColor(index),
-                  onTap: () {},
+                  pet: pet,
+                  imageBackgroundColor: backgroundColor,
+                  onTap: () {
+                    _navigateToPetDetailsAndUpdatePet(
+                      context,
+                      pet,
+                      backgroundColor,
+                    );
+                  },
                   onFavorite: () {
                     controller.toggleFavorite(listItems[index]);
                   },

@@ -3,7 +3,6 @@ import 'package:pet_adoption/src/common_widgets/app_back_button_widget.dart';
 import 'package:pet_adoption/src/pet/models/pet_model.dart';
 
 import '../../common_widgets/app_favorite_button_widget.dart';
-import '../../data/fake_data.dart';
 import '../../theme/app_colors.dart';
 import 'widgets/pet_details_about_widget.dart';
 import 'widgets/pet_details_adopt_button.dart';
@@ -12,7 +11,14 @@ import 'widgets/pet_details_sliver_appbar_widget.dart';
 import 'widgets/pet_image_gallery_widget.dart';
 
 class PetDetailsPage extends StatefulWidget {
-  const PetDetailsPage({super.key});
+  const PetDetailsPage({
+    super.key,
+    required this.pet,
+    required this.imagebackgroundColor,
+  });
+
+  final PetModel pet;
+  final Color imagebackgroundColor;
 
   @override
   State<PetDetailsPage> createState() => _PetDetailsPageState();
@@ -20,9 +26,16 @@ class PetDetailsPage extends StatefulWidget {
 
 class _PetDetailsPageState extends State<PetDetailsPage> {
   final padding = const EdgeInsets.symmetric(horizontal: 32);
-  final imagebackgroundColor = AppColors.yellow;
+  late final Color imagebackgroundColor;
 
-  PetModel pet = FakeData().pets[0];
+  late PetModel pet;
+
+  @override
+  void initState() {
+    super.initState();
+    pet = widget.pet;
+    imagebackgroundColor = widget.imagebackgroundColor;
+  }
 
   void _popWithCurrentPet() {
     Navigator.of(context).pop(pet);

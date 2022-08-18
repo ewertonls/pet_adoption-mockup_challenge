@@ -27,8 +27,12 @@ class PetListFilterController extends ChangeNotifier {
     notifyListeners();
   }
 
+  int indexOfPet(PetModel pet) {
+    return pets.indexOf(pet);
+  }
+
   void toggleFavorite(PetModel pet) {
-    final index = pets.indexOf(pet);
+    final index = indexOfPet(pet);
     final bool isFavorite = pets.elementAt(index).isFavorite;
     updatePetAt(index, pets.elementAt(index).copyWith(isFavorite: !isFavorite));
   }
