@@ -102,7 +102,10 @@ class _PetImageGalleryViewer extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Image.asset(petPhotos),
+              child: Image.asset(
+                petPhotos,
+                filterQuality: FilterQuality.medium,
+              ),
             ),
           ],
         ),
@@ -202,6 +205,7 @@ class _ImageGalleryItemsList extends StatelessWidget {
               photos[index],
               fit: BoxFit.cover,
               alignment: Alignment.centerLeft,
+              filterQuality: FilterQuality.medium,
             ),
           ),
         ),
