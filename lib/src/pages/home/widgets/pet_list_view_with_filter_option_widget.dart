@@ -100,7 +100,7 @@ class _PetListViewWithFilterOptionState
           sliver: SliverGrid(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: isDesktop ? 2 : 1,
-              mainAxisSpacing: 16,
+              mainAxisSpacing: listItems.isNotEmpty ? 16 : 0,
               crossAxisSpacing: 16,
               mainAxisExtent: 120,
             ),
