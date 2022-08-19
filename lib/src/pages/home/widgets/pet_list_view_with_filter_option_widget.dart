@@ -33,14 +33,12 @@ class _PetListViewWithFilterOptionState
   void initState() {
     super.initState();
     listItems = controller.pets;
-    controller.addListener(() {
-      _applyFilter();
-      setState(() {});
-    });
+    controller.addListener(_applyFilter);
   }
 
   @override
   void dispose() {
+    controller.removeListener(_applyFilter);
     controller.dispose();
     super.dispose();
   }
