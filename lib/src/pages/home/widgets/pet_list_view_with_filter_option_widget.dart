@@ -80,6 +80,8 @@ class _PetListViewWithFilterOptionState
           title: widget.title,
           titleLabel: widget.titleLabel,
           floating: true,
+          minHeight: 72,
+          maxHeight: 116,
         ),
         SliverPadding(
           padding: const EdgeInsets.only(top: 16, bottom: 32),
