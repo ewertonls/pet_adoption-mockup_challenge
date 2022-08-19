@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'pages/home/home_page.dart';
+import 'theme/app_sys_ui_overlay_style.dart';
 import 'theme/app_theme.dart';
 
 class PetAdoptionApp extends StatelessWidget {
@@ -8,9 +9,11 @@ class PetAdoptionApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Pet Adoption',
+      color: AppTheme.theme.colorScheme.primary,
       theme: AppTheme.theme,
-      home: const HomePage(),
+      home: AppStatusBarStyle(child: const SafeArea(child: HomePage())),
     );
   }
 }
