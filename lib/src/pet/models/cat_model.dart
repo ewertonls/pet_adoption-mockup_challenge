@@ -2,7 +2,7 @@ import '../enums/gender_enum.dart';
 import 'pet_model.dart';
 
 class CatModel extends PetModel {
-  CatModel({
+  const CatModel({
     required super.name,
     required super.breed,
     required super.age,

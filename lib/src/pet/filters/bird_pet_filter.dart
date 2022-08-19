@@ -3,6 +3,7 @@ import '../entities/pet_interface.dart';
 import 'filter_interface.dart';
 
 class BirdPetFilter implements IPetFilter {
+  const BirdPetFilter();
   @override
   bool filter(IPet pet) => pet is BirdModel;
 }
