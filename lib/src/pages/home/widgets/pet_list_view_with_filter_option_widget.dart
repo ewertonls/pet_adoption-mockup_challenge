@@ -72,6 +72,7 @@ class _PetListViewWithFilterOptionState
 
   @override
   Widget build(BuildContext context) {
+    final bool isDesktop = MediaQuery.of(context).size.width > 500;
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -94,18 +95,19 @@ class _PetListViewWithFilterOptionState
         ),
         SliverPadding(
           padding: const EdgeInsets.only(left: 32, right: 32, bottom: 32),
-          sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-            childCount: listItems.length,
-            (context, index) {
-              const double cardSpacing = 16;
-              final pet = listItems[index];
-              final backgroundColor = AppColors.colorReelColor(index);
-              return Padding(
-                padding: EdgeInsets.only(
-                  top: index == 0 ? 0 : cardSpacing,
-                ),
-                child: PetCard(
+          sliver: SliverGrid(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: isDesktop ? 2 : 1,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              mainAxisExtent: 120,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              childCount: listItems.length,
+              (context, index) {
+                final pet = listItems[index];
+                final backgroundColor = AppColors.colorReelColor(index);
+                return PetCard(
                   pet: pet,
                   imageBackgroundColor: backgroundColor,
                   onTap: () {
@@ -118,10 +120,10 @@ class _PetListViewWithFilterOptionState
                   onFavorite: () {
                     controller.toggleFavorite(listItems[index]);
                   },
-                ),
-              );
-            },
-          )),
+                );
+              },
+            ),
+          ),
         )
       ],
     );
