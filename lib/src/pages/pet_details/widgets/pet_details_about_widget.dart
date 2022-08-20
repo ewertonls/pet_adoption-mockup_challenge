@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../theme/app_mediaquery_extension.dart';
 
 class PetDetailsAbout extends StatelessWidget {
   const PetDetailsAbout({
@@ -11,13 +12,14 @@ class PetDetailsAbout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "About",
-          style: theme.textTheme.titleMedium?.copyWith(
+          style: textTheme.titleMedium?.copyWith(
             fontSize: 18,
             fontWeight: FontWeight.w700,
             height: 2,
@@ -25,10 +27,10 @@ class PetDetailsAbout extends StatelessWidget {
           textAlign: TextAlign.start,
         ),
         SizedBox(
-          width: 768,
+          width: context.maxParagraphWidth,
           child: Text(
             content,
-            style: theme.textTheme.bodyMedium,
+            style: textTheme.bodyMedium,
             textAlign: TextAlign.start,
           ),
         ),

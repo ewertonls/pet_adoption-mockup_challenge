@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../../../pet/models/pet_model.dart';
+import '../../../theme/app_mediaquery_extension.dart';
 
 class PetImageGallery extends StatefulWidget {
   const PetImageGallery({
@@ -34,8 +35,9 @@ class _PetImageGalleryState extends State<PetImageGallery> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final screenSize = MediaQuery.of(context).size;
+    final maxParagraphWidth = context.maxParagraphWidth;
     return SizedBox(
-      width: 768,
+      width: maxParagraphWidth,
       child: LimitedBox(
         maxHeight: min(widget.maxHeight, screenSize.height * 0.8),
         child: AspectRatio(
@@ -49,7 +51,6 @@ class _PetImageGalleryState extends State<PetImageGallery> {
                   _ImageGalleryItemsList(
                     selectedIndex: selectedIndex,
                     petPhotos: petPhotos,
-                    theme: theme,
                     width: 76,
                   ),
                   const SizedBox.square(dimension: 12),
@@ -116,15 +117,12 @@ class _PetImageGalleryViewer extends StatelessWidget {
 
 class _ImageGalleryItemsList extends StatelessWidget {
   _ImageGalleryItemsList({
-    Key? key,
     required this.petPhotos,
-    required this.theme,
     this.width = 80,
     required this.selectedIndex,
-  }) : super(key: key);
+  });
 
   final List<String> petPhotos;
-  final ThemeData theme;
   final double width;
   final ValueNotifier<int> selectedIndex;
 
@@ -132,42 +130,49 @@ class _ImageGalleryItemsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final spacing = context.spacing;
     return AnimatedBuilder(
-        animation: controller,
-        builder: (context, _) {
-          return ShaderMask(
-            blendMode: BlendMode.dstOut,
-            shaderCallback: (bounds) {
-              return LinearGradient(
-                colors: const [
-                  Colors.black,
-                  Colors.transparent,
-                  Colors.transparent,
-                  Colors.black,
-                ],
-                stops: _buildShaderStops(16),
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ).createShader(bounds);
-            },
-            child: SizedBox(
-              width: width,
-              child: ListView.separated(
-                controller: controller,
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                itemCount: petPhotos.length,
-                itemBuilder: (context, index) {
-                  return _buildImageGalleryItem(petPhotos, index);
-                },
-                separatorBuilder: (_, __) => const SizedBox(
-                  height: 16,
-                  width: 16,
-                ),
-              ),
+      animation: controller,
+      builder: (context, _) {
+        return ShaderMask(
+          blendMode: BlendMode.dstOut,
+          shaderCallback: (bounds) {
+            return LinearGradient(
+              colors: const [
+                Colors.black,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.black,
+              ],
+              stops: _buildShaderStops(spacing),
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ).createShader(bounds);
+          },
+          child: SizedBox(
+            width: width,
+            child: ListView.separated(
+              controller: controller,
+              physics: const BouncingScrollPhysics(),
+              padding: EdgeInsets.symmetric(vertical: spacing),
+              itemCount: petPhotos.length,
+              itemBuilder: (context, index) {
+                return _ImageGalleryItem(
+                  selectedIndex: selectedIndex,
+                  itemIndex: index,
+                  photos: petPhotos,
+                );
+              },
+              separatorBuilder: (_, __) {
+                return SizedBox.square(
+                  dimension: spacing,
+                );
+              },
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   List<double> _buildShaderStops(double size) {
@@ -176,21 +181,36 @@ class _ImageGalleryItemsList extends StatelessWidget {
     final stops = <double>[0, hasBefore ? 0.2 : 0, hasAfter ? 0.8 : 1, 1];
     return stops;
   }
+}
 
-  Widget _buildImageGalleryItem(List<String> photos, int index) {
-    final borderRadius = BorderRadius.circular(16);
+class _ImageGalleryItem extends StatelessWidget {
+  const _ImageGalleryItem({
+    required this.selectedIndex,
+    required this.itemIndex,
+    required this.photos,
+  });
+
+  final ValueNotifier<int> selectedIndex;
+  final int itemIndex;
+  final List<String> photos;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final radius = context.radius;
+
     return Material(
-      borderRadius: borderRadius,
+      borderRadius: BorderRadius.circular(radius),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () {
-          selectedIndex.value = index;
+          selectedIndex.value = itemIndex;
         },
         child: AspectRatio(
           aspectRatio: 1,
           child: Container(
             decoration: ShapeDecoration(
-              color: selectedIndex.value == index
+              color: selectedIndex.value == itemIndex
                   ? theme.colorScheme.onInverseSurface.withOpacity(0.1)
                   : theme.colorScheme.surface,
               shape: RoundedRectangleBorder(
@@ -198,11 +218,11 @@ class _ImageGalleryItemsList extends StatelessWidget {
                   color: theme.colorScheme.onInverseSurface.withOpacity(0.4),
                   width: 2,
                 ),
-                borderRadius: borderRadius,
+                borderRadius: BorderRadius.circular(radius),
               ),
             ),
             child: Image.asset(
-              photos[index],
+              photos[itemIndex],
               fit: BoxFit.cover,
               alignment: Alignment.centerLeft,
               filterQuality: FilterQuality.medium,

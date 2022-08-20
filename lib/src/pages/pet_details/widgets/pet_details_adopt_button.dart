@@ -13,11 +13,14 @@ class PetDetailsAdoptButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Material(
-          color: theme.colorScheme.primary,
+          color: colorScheme.primary,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(50),
           ),
@@ -32,14 +35,14 @@ class PetDetailsAdoptButton extends StatelessWidget {
                 children: [
                   Icon(
                     AppIcons.paw,
-                    color: theme.colorScheme.onPrimary,
+                    color: colorScheme.onPrimary,
                     size: 20,
                   ),
                   const SizedBox(width: 16),
                   Text(
                     "Adopt".toUpperCase(),
-                    style: theme.textTheme.labelLarge?.copyWith(
-                      color: theme.colorScheme.onPrimary,
+                    style: textTheme.labelLarge?.copyWith(
+                      color: colorScheme.onPrimary,
                       fontWeight: FontWeight.w500,
                       fontSize: 18,
                     ),

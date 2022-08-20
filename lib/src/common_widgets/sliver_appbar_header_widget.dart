@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import '../theme/app_mediaquery_extension.dart';
 
 class SliverAppbarHeader extends SliverPersistentHeaderDelegate {
   const SliverAppbarHeader({
@@ -26,11 +27,15 @@ class SliverAppbarHeader extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    final double topPadding = MediaQuery.of(context).padding.top;
-    final ThemeData theme = Theme.of(context);
+    final theme = Theme.of(context);
+    final appWidth = context.appSize.width;
+    final topPadding = context.statusbarSize;
+    final spacing = context.spacing;
+    final horizontalSpacing = context.horizontalSpacing;
+    final radius = context.radius;
 
     return ClipPath(
-      clipper: _SliverAppBarShape(radius: 16),
+      clipper: _SliverAppBarShape(radius: radius),
       child: Material(
         type: MaterialType.card,
         color: theme.colorScheme.background,
@@ -39,44 +44,41 @@ class SliverAppbarHeader extends SliverPersistentHeaderDelegate {
             color: theme.disabledColor,
           ),
           child: Padding(
-            padding: EdgeInsets.only(top: topPadding, bottom: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: EdgeInsets.only(
+              top: topPadding,
+              bottom: spacing,
+              left: horizontalSpacing,
+              right: horizontalSpacing,
+            ),
+            child: Stack(
               children: [
-                if (leading != null) leading! else const Spacer(),
-                Expanded(
-                  flex: 2,
-                  child: _buildTitle(theme),
+                if (leading != null)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Transform.translate(
+                      offset: const Offset(-24, 0),
+                      child: leading!,
+                    ),
+                  ),
+                Center(
+                  child: SizedBox(
+                    width: appWidth - (horizontalSpacing * 2) - 84,
+                    child: _AppBarTitle(
+                      title: title,
+                      titleLabel: titleLabel,
+                    ),
+                  ),
                 ),
-                if (trailing != null) trailing! else const Spacer(),
+                if (trailing != null)
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: trailing!,
+                  ),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildTitle(ThemeData theme) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        if (titleLabel != null)
-          Text(
-            titleLabel!,
-            style: theme.textTheme.labelSmall,
-            textAlign: TextAlign.center,
-          ),
-        if (title != null)
-          Text(
-            title!,
-            style: theme.textTheme.titleSmall?.copyWith(
-              color: theme.colorScheme.onSurface,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-      ],
     );
   }
 
@@ -89,6 +91,45 @@ class SliverAppbarHeader extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
     return true;
+  }
+}
+
+class _AppBarTitle extends StatelessWidget {
+  const _AppBarTitle({
+    this.title,
+    this.titleLabel,
+  });
+
+  final String? title;
+  final String? titleLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (titleLabel != null)
+          Text(
+            titleLabel!,
+            style: textTheme.labelSmall,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+          ),
+        if (title != null)
+          Text(
+            title!,
+            style: textTheme.titleSmall?.copyWith(
+              color: colorScheme.onSurface,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+            maxLines: 2,
+          ),
+      ],
+    );
   }
 }
 

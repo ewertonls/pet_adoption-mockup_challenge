@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../common_widgets/pet_adoption_sliver_appbar_widget.dart';
+import '../../../theme/app_mediaquery_extension.dart';
 
 class PetDetailsSliverAppBar extends StatelessWidget {
   const PetDetailsSliverAppBar({
@@ -19,17 +20,14 @@ class PetDetailsSliverAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PetAdoptionSliverAppBar(
-      minHeight: 140,
-      maxHeight: 140,
+      minHeight: 110,
+      maxHeight: 120,
       floating: true,
       title: title,
       titleLabel: titleLabel,
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 16),
-        child: leading,
-      ),
-      trailing: Padding(
-        padding: const EdgeInsets.only(right: 32),
+      leading: leading,
+      trailing: Transform.translate(
+        offset: const Offset(8, 0),
         child: trailing,
       ),
     );

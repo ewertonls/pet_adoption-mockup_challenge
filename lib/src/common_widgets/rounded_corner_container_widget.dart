@@ -16,7 +16,7 @@ class RoundedCornerContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    final containerColor = Theme.of(context).colorScheme.surfaceVariant;
     return ClipRRect(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(radius),
@@ -25,7 +25,7 @@ class RoundedCornerContainer extends StatelessWidget {
       child: Container(
         padding: padding,
         decoration: BoxDecoration(
-          color: theme.colorScheme.surfaceVariant,
+          color: containerColor,
         ),
         child: child,
       ),

@@ -7,17 +7,11 @@ class AppDrawerButton extends StatelessWidget {
   const AppDrawerButton({super.key});
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20),
-      child: LimitedBox(
-        maxWidth: 50,
-        child: AppIconButton(
-          icon: const Icon(AppIcons.bars),
-          onTap: () {
-            Scaffold.maybeOf(context)?.openDrawer();
-          },
-        ),
-      ),
+    return AppIconButton(
+      icon: const Icon(AppIcons.bars),
+      onTap: () {
+        Scaffold.maybeOf(context)?.openDrawer();
+      },
     );
   }
 }

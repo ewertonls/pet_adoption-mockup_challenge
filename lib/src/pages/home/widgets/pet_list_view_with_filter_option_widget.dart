@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pet_adoption/src/pages/pet_details/pet_details_page.dart';
 
 import '../../../pet/controllers/pet_list_filter_controller.dart';
 import '../../../pet/models/pet_models.dart';
 import '../../../theme/app_colors.dart';
+import '../../../theme/app_mediaquery_extension.dart';
+import '../../pet_details/pet_details_page.dart';
 import 'home_page_sliver_appbar_widget.dart';
 import 'pet_card_widget.dart';
 import 'pet_filter_option_list_widget.dart';
@@ -70,7 +71,11 @@ class _PetListViewWithFilterOptionState
 
   @override
   Widget build(BuildContext context) {
-    final bool isDesktop = MediaQuery.of(context).size.width > 500;
+    final isDesktop = context.isDesktop;
+    final spacing = context.spacing;
+    final horizontalSpacing = context.horizontalSpacing;
+    final verticalSpacing = context.verticalSpacing;
+
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -82,7 +87,11 @@ class _PetListViewWithFilterOptionState
           maxHeight: 116,
         ),
         SliverPadding(
-          padding: const EdgeInsets.only(top: 16, bottom: 32),
+          padding: EdgeInsets.only(
+            left: horizontalSpacing,
+            top: verticalSpacing,
+            bottom: verticalSpacing * 2,
+          ),
           sliver: SliverToBoxAdapter(
             child: SizedBox(
               height: 50,
@@ -94,12 +103,16 @@ class _PetListViewWithFilterOptionState
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.only(left: 32, right: 32, bottom: 32),
+          padding: EdgeInsets.only(
+            left: horizontalSpacing,
+            right: horizontalSpacing,
+            bottom: verticalSpacing * 2,
+          ),
           sliver: SliverGrid(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: isDesktop ? 2 : 1,
-              mainAxisSpacing: listItems.isNotEmpty ? 16 : 0,
-              crossAxisSpacing: 16,
+              mainAxisSpacing: listItems.isNotEmpty ? spacing : 0,
+              crossAxisSpacing: spacing,
               mainAxisExtent: 120,
             ),
             delegate: SliverChildBuilderDelegate(

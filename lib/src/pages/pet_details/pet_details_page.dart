@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pet_adoption/src/common_widgets/app_back_button_widget.dart';
-import 'package:pet_adoption/src/pet/models/pet_model.dart';
 
+import '../../common_widgets/app_back_button_widget.dart';
 import '../../common_widgets/app_favorite_button_widget.dart';
-import '../../theme/app_colors.dart';
+import '../../pet/models/pet_model.dart';
+import '../../theme/app_mediaquery_extension.dart';
 import 'widgets/pet_details_about_widget.dart';
 import 'widgets/pet_details_adopt_button.dart';
 import 'widgets/pet_details_header_widget.dart';
@@ -25,7 +25,6 @@ class PetDetailsPage extends StatefulWidget {
 }
 
 class _PetDetailsPageState extends State<PetDetailsPage> {
-  final padding = const EdgeInsets.symmetric(horizontal: 32);
   late final Color imagebackgroundColor;
 
   late PetModel pet;
@@ -48,17 +47,18 @@ class _PetDetailsPageState extends State<PetDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final padding = EdgeInsets.symmetric(horizontal: context.horizontalSpacing);
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       extendBody: true,
-      backgroundColor: theme.colorScheme.surface,
+      backgroundColor: colorScheme.surface,
       body: CustomScrollView(
         slivers: [
           PetDetailsSliverAppBar(
             leading: AppBackButton(onTap: _popWithCurrentPet),
             trailing: AppFavoriteButton.filled(
               onTap: _tooglePetFavorite,
-              color: AppColors.lightRed,
+              color: colorScheme.surfaceTint,
               value: pet.isFavorite,
             ),
           ),
@@ -84,10 +84,9 @@ class _PetDetailsPageState extends State<PetDetailsPage> {
 
 class _DetailsHeaderWidget extends StatelessWidget {
   const _DetailsHeaderWidget({
-    Key? key,
     required this.pet,
     required this.padding,
-  }) : super(key: key);
+  });
 
   final EdgeInsets padding;
   final PetModel pet;
@@ -99,7 +98,9 @@ class _DetailsHeaderWidget extends StatelessWidget {
       sliver: SliverToBoxAdapter(
         child: Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints.loose(const Size.fromWidth(768)),
+            constraints: BoxConstraints.loose(
+              Size.fromWidth(context.maxParagraphWidth),
+            ),
             child: PetDetailsHeader(pet: pet),
           ),
         ),
@@ -110,11 +111,10 @@ class _DetailsHeaderWidget extends StatelessWidget {
 
 class _ImageGallerySliver extends StatelessWidget {
   const _ImageGallerySliver({
-    Key? key,
     required this.pet,
     required this.imagebackgroundColor,
     required this.padding,
-  }) : super(key: key);
+  });
 
   final EdgeInsets padding;
   final PetModel pet;
@@ -138,10 +138,9 @@ class _ImageGallerySliver extends StatelessWidget {
 
 class _AboutSectionSliver extends StatelessWidget {
   const _AboutSectionSliver({
-    Key? key,
     required this.pet,
     required this.padding,
-  }) : super(key: key);
+  });
 
   final PetModel pet;
   final EdgeInsets padding;
@@ -149,7 +148,7 @@ class _AboutSectionSliver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
-      padding: padding.copyWith(bottom: 100),
+      padding: padding.copyWith(bottom: context.verticalSpacing * 6),
       sliver: SliverToBoxAdapter(
         child: Center(
           child: PetDetailsAbout(content: pet.about),

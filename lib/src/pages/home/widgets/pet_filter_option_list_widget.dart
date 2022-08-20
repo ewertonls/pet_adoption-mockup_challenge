@@ -5,6 +5,7 @@ import '../../../common_widgets/app_chip_widget.dart';
 import '../../../pet/controllers/pet_list_filter_controller.dart';
 import '../../../pet/pet_filter_item.dart';
 import '../../../theme/app_icons.dart';
+import '../../../theme/app_mediaquery_extension.dart';
 
 class FilterOptionsListView extends StatefulWidget {
   const FilterOptionsListView({
@@ -36,15 +37,13 @@ class _FilterOptionsListViewState extends State<FilterOptionsListView> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 32, right: 16),
-          child: _ListFilterSettingsButton(
-            onTap: () {},
-          ),
+        _ListFilterSettingsButton(
+          onTap: () {},
         ),
+        SizedBox(width: context.spacing),
         Expanded(
           child: ListView.separated(
-            padding: const EdgeInsets.only(right: 32),
+            padding: EdgeInsets.only(right: context.horizontalSpacing),
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             itemCount: filterItemsList.length,
@@ -59,7 +58,9 @@ class _FilterOptionsListViewState extends State<FilterOptionsListView> {
                 value: widget.controller.selectedFilter == item.filter,
               );
             },
-            separatorBuilder: (_, __) => const SizedBox(height: 16, width: 16),
+            separatorBuilder: (_, __) {
+              return SizedBox.square(dimension: context.spacing);
+            },
           ),
         ),
       ],

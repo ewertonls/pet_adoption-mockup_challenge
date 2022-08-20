@@ -24,8 +24,6 @@ class _AvatarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(right: 32),
-        child: UserAvatarButton(onTap: () {}));
+    return UserAvatarButton(onTap: () {});
   }
 }
