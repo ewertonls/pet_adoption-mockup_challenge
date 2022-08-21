@@ -142,24 +142,24 @@ class _SliverAppBarShape extends CustomClipper<Path> {
     double height = size.height;
     double width = size.width;
     final path = Path();
-    path.lineTo(0, height);
-    path.arcTo(
+    path..lineTo(0, height)
+   ..arcTo(
       Rect.fromCircle(center: Offset(radius, height), radius: radius),
       pi,
       pi / 2,
       false,
-    );
-    path.lineTo(radius, height - radius);
-    path.lineTo(width - radius, height - radius);
-    path.arcTo(
+    )
+    ..lineTo(radius, height - radius)
+    ..lineTo(width - radius, height - radius)
+    ..arcTo(
       Rect.fromCircle(center: Offset(width - radius, height), radius: radius),
       pi * 3 / 2,
       pi / 2,
       false,
-    );
-    path.lineTo(width, height);
-    path.lineTo(width, 0);
-    path.close();
+    )
+    ..lineTo(width, height)
+    ..lineTo(width, 0)
+    ..close();
     return path;
   }
 
